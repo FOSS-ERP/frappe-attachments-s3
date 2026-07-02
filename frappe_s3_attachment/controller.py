@@ -142,6 +142,9 @@ class S3Operations(object):
 
     def delete_from_s3(self, key):
         """Delete file from s3"""
+        if not key:
+            return
+        
         self.s3_settings_doc = frappe.get_doc(
             'S3 File Attachment',
             'S3 File Attachment',
@@ -345,6 +348,9 @@ def migrate_existing_files():
 
 def delete_from_cloud(doc, method):
     """Delete file from s3"""
+    if not doc.content_hash:
+        return
+    
     s3 = S3Operations()
     s3.delete_from_s3(doc.content_hash)
 
